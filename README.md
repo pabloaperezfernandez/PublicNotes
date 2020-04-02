@@ -12,12 +12,12 @@ The directory tree structure is as follows:
       * **Python** - Documents on Python's syntax.  For example,
         Python/PipingAndPostFix.ipynb shows how to introduce postfix
         operator notation.
-		* PipingAndPostFix.ipynb - Notes on introducing postfix
+		* **PipingAndPostFix.ipynb** - Notes on introducing postfix
           notation in Python
       * **WebAuthentication** - Notes on authentication (for the web
         and otherwise)
-		* Basic and Digest Authentication.ipynb - Notes on basic and
+		* **Basic and Digest Authentication.ipynb** - Notes on basic and
           digest authentication.
       * **WebRequests** - Notes of HTTP web requests and web services.
-		* Understading HTTP Requests.ipynb - Making and inspecting web
+		* **Understading HTTP Requests.ipynb** - Making and inspecting web
           requests and resposes using `curl`.
