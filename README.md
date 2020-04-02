@@ -18,6 +18,8 @@ The directory tree structure is as follows:
         and otherwise)
 		* **Basic and Digest Authentication.ipynb** - Notes on basic and
           digest authentication.
+	    * **Passwords, Hashing, and Salt.ipynb** - Notes on how salt
+          improves security and how it is implement on Unix/Linux
       * **WebRequests** - Notes of HTTP web requests and web services.
 		* **Understading HTTP Requests.ipynb** - Making and inspecting web
           requests and resposes using `curl`.
