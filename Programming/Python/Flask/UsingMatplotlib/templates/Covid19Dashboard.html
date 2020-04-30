@@ -1,0 +1,92 @@
+<!--
+Description
+-----------
+Jinja2 template for Flask app.  Given a list of countries
+and a country (from this list), display COVID-19 chart
+and a table of statistics.
+
+Parameters
+----------
+1.  `countryNames` (List[str]) - List of country names
+2.  `defaultCountry` (str) - Country for which to fetch data
+	and chart
+3.  `defaultCountryData` (str) - An HTML-formatted table
+	of COVID-19 statistics
+ -->
+
+<!doctype html>
+<HTML>
+    <head>
+        <!-- Meta Declarations -->
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=yes">
+
+        <!-- Document Info -->
+        <meta name="description" content="COVID19 Downloader and Plotter">
+        <meta name="author" content="Pablo A. Pérez-Fernández, Ph.D.">
+
+        <title>COVID19 Tracker</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <style>
+            .BorderCollapse {
+              border-collapse: collapse;
+            }
+        </style>
+    </head>
+
+   <body>
+       <H1>
+           COVID-19 Downloaded and Plotter
+       </H1>
+
+       <form class="modal-content animate"
+             action="{{url_for('index')}}"
+             method="post"
+             id="TheForm"
+             >
+           Choose a country:
+           <select id="SelectedCountry" name="SelectedCountry">
+                {% for n in countryNames %}
+                    <option value="{{n}}">{{n}}</option>
+                {% endfor %}
+            </select>
+
+            <input type="submit" name="submit" value="Click to Submit">
+        </form>
+
+       <div id="CountryChart">
+           <img src="{{url_for('getCountryChart', countryName=defaultCountry)}}"/>
+       </div>
+
+       <p>
+           Statistics for the past 28 days.
+       </p>
+
+       <div id="CountryData">
+           {{defaultCountryData|safe}}
+       </div>
+
+       <p>
+           <strong>Note:</strong> All data sourced from <a href="https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases">here</a>
+       </p>
+
+       <script>
+		 /*
+		    Description
+		    -----------
+		    Ensure that the dropdown shows the country specified by
+			the rendering Python function.  Otherwise, you would see
+			the first country in array `countryNames` instead of the
+			country chosen by the user.
+		  */
+		 $(document).ready(
+		     function () {
+			 // Set #SelectedCountry to the country passed by the calling backup
+			 $('#SelectedCountry').val('{{defaultCountry}}');
+		     }
+		 )
+       </script>
+   </body>
+</HTML>
