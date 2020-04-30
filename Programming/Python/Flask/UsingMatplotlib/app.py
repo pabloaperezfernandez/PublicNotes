@@ -9,39 +9,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 app = Flask(__name__, template_folder='templates')
 
 
-def TransposeDataframe(df: pd.DataFrame) -> pd.DataFrame:
-    """Transpose dataframe so dates become the vertical index.
-
-    Description
-    -----------
-    Transforms the dataframe from time series running horizontally
-    to time series running vertically. Put dates along the vertical
-    index (so time series run down) and countries along the horizontal
-    axis (one column per country).
-
-    Parameters
-    ----------
-    1.  `df` (pd.DataFrame) - A dataframe with country names as the index
-        and dates in ascending order (ascending horizontally to the right)
-        as column headers.  The data in each column are the values of each
-        series on the corresponding date.  For example
-
-        >>>             1/22/20 1/23/20 1/24/20
-           Country
-           Afghanistan      1       2      10
-           Albania          2      22      50
-
-    Return Value
-    ------------
-    Returns a dataframe with dates in ascending order as the index and
-    data vectors in the columns.
-    """
-    return pd.DataFrame(np.transpose(df.values),
-                        columns=df.index.values,
-                        index=pd.Index(df.columns, name='Date')
-                        )
-
-
 def generateCountryPlot(country):
     """Return image with COVID-19 plot for given country.
 
@@ -130,7 +97,7 @@ def getCovid19Data():
                                           [dfCases, dfDeaths, dfRecoveries]
                                           )
     # Transpose the datasets so dates run along the vertical axis.
-    dfCases, dfDeaths, dfRecoveries = map(TransposeDataframe,
+    dfCases, dfDeaths, dfRecoveries = map(lambda x: x.T,
                                           [dfCases, dfDeaths, dfRecoveries]
                                           )
 
