@@ -12,6 +12,7 @@ The directory tree structure is as follows:
       * **Python** - Documents on Python's syntax.  For example,
         Python/PipingAndPostFix.ipynb shows how to introduce postfix
         operator notation.
+        * **Flask/UsingMatplotlib** - An example using COVID-19 data to use Matplotlib-generated plots in a Flask template without resorting to external libraries.
 		* **PipingAndPostFix.ipynb** - Notes on introducing postfix
           notation in Python
       * **WebAuthentication** - Notes on authentication (for the web

@@ -16,3 +16,6 @@ I believe that (but cannot remember) Numpy and Matplotlib get installed by Panda
 3. Create a subdirectory called `templates` in the same directory where you saved `app.py`
 4. Open you shell to the directory where you saved `app.py`
 5. Execute `python app.py`
+
+
+**Note:** This was originally published as Gist [here](https://gist.github.com/pabloaperezfernandez/e7334ed4962387c7694259ce7c37ad0f).
