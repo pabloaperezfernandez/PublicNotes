@@ -36,18 +36,17 @@ def generateCountryPlot(country):
                        'Recoveries': dfRecoveries,
                        'Active': dfActive
                        },
-                      columns=['Cases', 'Deaths', 'Recoveries', 'Active'],
                       index=pd.Index(dfCases.index.values, name='Date')
                       )
 
     # Generate plot using Pandas' integratio with matplotlib
-    aPlot = df.plot(figsize=(8, 5))
+    aPlot = df.plot(figsize=(5, 4))
 
     # Set chart's title
     aPlot.set_title('COVID-19 stats for ' + country)
 
     # Reformat yaxis using commas to group digits
-    aPlot.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+    aPlot.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:20,.0f}'))
 
     # Set reference to figure
     aPlot.get_figure().set_dpi(100)
@@ -132,7 +131,7 @@ def encodePlot(aPlot):
     return png_output.getvalue()
 
 
-def getCountryData(countryName):
+def getCountryData(countryName, numberOfDays):
     """Returns HTML formatted dataframe with requested data."""
     dfCases = covidDict['cases'][countryName]
     dfDeaths = covidDict['deaths'][countryName]
@@ -145,12 +144,13 @@ def getCountryData(countryName):
                        'Recoveries': dfRecoveries,
                        'Active': dfActive
                        },
-                      columns=['Cases', 'Deaths', 'Recoveries', 'Active'],
                       index=pd.Index(dfCases.index.values, name='Date')
-                      ).tail(28)
+                      ).tail(numberOfDays)
 
-    return df.applymap(lambda x: '{:20,.0f}'.format(x))\
+    return df.applymap(lambda x: '{:,.0f}'.format(x))\
+             .reset_index()\
              .style\
+             .hide_index()\
              .set_table_attributes('class="BorderCollapse"')\
              .set_table_styles([dict(selector="th",
                                      props=[("text-align", "center"),
@@ -163,17 +163,20 @@ def getCountryData(countryName):
                                             ]
                                      ),
                                 dict(selector="tr:nth-child(even)",
-                                     props=[("background-color",
-                                             "lightyellow"
-                                             )
-                                            ]
+                                     props=[("background-color", "lightyellow")]
                                      ),
 
                                 ]
                                )\
-             .set_properties(subset=df.columns.to_list(),
+             .set_properties(subset=['Date', 'Cases', 'Deaths', 'Recoveries',
+                                     'Active'
+                                     ],
                              **{'border': '1px dotted black',
-                                'text-align': 'right'
+                                'text-align': 'right',
+                                'padding-left': '5px',
+                                'padding-right': '5px',
+                                'padding-top': '2px',
+                                'padding-bottom': '2px'
                                 }
                              ).render()
 
@@ -215,16 +218,26 @@ def index():
         covidDict['active'] = df['active']
         covidDict['date'] = df['date']
 
-    selectedCountry = (request.form.get('SelectedCountry')
-                       if request.method == 'POST'
-                       else 'Spain'
-                       )
+    if request.method == 'POST':
+        selectedCountry = request.form.get('SelectedCountry')
 
-    return render_template('Covid19Dashboard.html',
-                           defaultCountry=selectedCountry,
-                           defaultCountryData=getCountryData(selectedCountry),
-                           countryNames=covidDict['cases'].columns.to_list()
-                           )
+        return render_template('Covid19Dashboard.html',
+                               defaultCountry=selectedCountry,
+                               defaultCountryData=getCountryData(selectedCountry,
+                                                                 28
+                                                                 ),
+                               countryNames=covidDict['cases'].columns.to_list()
+                               )
+    else:
+        selectedCountry = 'Malta'
+
+        return render_template('Covid19Dashboard.html',
+                               defaultCountry=selectedCountry,
+                               defaultCountryData = getCountryData(selectedCountry,
+                                                                   28
+                                                                   ),
+                               countryNames = covidDict['cases'].columns.to_list()
+                               )
 
 
 # Load data into global variable
