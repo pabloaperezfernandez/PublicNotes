@@ -21,6 +21,6 @@ The directory tree structure is as follows:
           digest authentication.
 	    * **Passwords, Hashing, and Salt.ipynb** - Notes on how salt
           improves security and how it is implement on Unix/Linux
-      * **WebRequests** - Notes of HTTP web requests and web services.
+      * **WebRequests** - Notes on HTTP web requests and web services.
 		* **Understading HTTP Requests.ipynb** - Making and inspecting web
           requests and resposes using `curl`.
